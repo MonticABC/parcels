@@ -1,0 +1,59 @@
+.inputForm
+{
+    width: 400px;
+    height:200px;
+    left: 35%;
+    top: 10%;
+    position: absolute;
+
+}
+
+
+.parcels
+{
+    top:57%;
+    position: absolute;
+    left: 5%;
+    width: 90%;
+}
+
+.labels
+{
+    width:150px;
+}
+
+.inputs
+{
+    width: 200px;
+}
+.buttons
+{
+    left: 40%;
+    position: absolute;
+}
+
+
+#sender
+{
+    width: 200px;
+}
+
+#recipient
+{
+    width: 200px;
+}
+
+#myTable
+{
+    font-size: 15px
+}
+#myTable1
+{
+    width: 450px;
+}
+
+#total
+{
+    left: 35%;
+    position: relative;
+}

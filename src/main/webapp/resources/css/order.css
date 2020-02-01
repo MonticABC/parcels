@@ -1,0 +1,13 @@
+.orders
+ {
+     left:10%;
+    position: relative;
+    width: 90%;
+    font-size:16px
+ }
+
+.orders h3
+{
+    left: 30%;
+    position: relative;
+}

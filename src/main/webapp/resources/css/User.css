@@ -1,0 +1,49 @@
+#table
+{
+    width: 800px;
+}
+
+#tableFont
+{
+    font-size: 15px;
+    width: 90%;
+}
+
+#myTable
+{
+    font-size: 15px;
+}
+
+.parcel
+{
+    width: 90%;
+    left: 5%;
+    position: relative;
+}
+
+
+.labels
+{
+    width: 150px;
+}
+
+.inputs
+{
+    width: 200px;
+}
+
+.users
+{
+    width: 500px;
+}
+
+
+#rec
+{
+    width: 200px;
+}
+
+#send
+{
+    width: 200px;
+}

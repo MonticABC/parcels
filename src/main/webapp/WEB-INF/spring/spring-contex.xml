@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xmlns:tx="http://www.springframework.org/schema/tx"
+             xmlns:mvc="http://www.springframework.org/schema/mvc"
+             xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- DispatcherServlet Context: defines this servlet's request-processing
+        infrastructure -->
+
+    <!-- Enables the Spring MVC @Controller programming model -->
+    <annotation-driven/>
+    <context:component-scan base-package="by.bntu.fitr.povt"/>
+
+    <!-- Resolves views selected for rendering by @Controllers to .jsp resources
+        in the /WEB-INF/views directory -->
+    <beans:bean
+            class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <beans:property name="prefix" value="/WEB-INF/views/" />
+        <beans:property name="suffix" value=".jsp" />
+    </beans:bean>
+
+    <mvc:resources mapping="/resources/**" location="/resources/" cache-period ="100000"/>
+    <mvc:annotation-driven/>
+
+
+    <beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+                destroy-method="close">
+        <beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <beans:property name="url"
+                        value="jdbc:mysql://localhost:3306/parcels?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf8" />
+        <beans:property name="username" value="root" />
+        <beans:property name="password" value="rootmyroot" />
+    </beans:bean>
+
+    <context:component-scan base-package="by.bntu.fitr.povt" />
+
+    <!-- Hibernate 4 SessionFactory Bean definition -->
+    <beans:bean id="hibernate4AnnotatedSessionFactory"
+                class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <beans:property name="dataSource" ref="dataSource" />
+        <beans:property name="annotatedClasses">
+            <beans:list>
+                <beans:value>by.bntu.fitr.povt.dao.entities.Country</beans:value>
+                <beans:value>by.bntu.fitr.povt.dao.entities.Parcel</beans:value>
+                <beans:value>by.bntu.fitr.povt.dao.entities.User</beans:value>
+                <beans:value>by.bntu.fitr.povt.dao.entities.Order</beans:value>
+                <beans:value>by.bntu.fitr.povt.dao.entities.Tarif</beans:value>
+                <beans:value>by.bntu.fitr.povt.dao.entities.Role</beans:value>
+                <beans:value>by.bntu.fitr.povt.dao.entities.Discount</beans:value>
+            </beans:list>
+        </beans:property>
+        <beans:property name="hibernateProperties">
+            <beans:props>
+                <beans:prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect
+                </beans:prop>
+                <beans:prop key="hibernate.show_sql">true</beans:prop>
+            </beans:props>
+        </beans:property>
+    </beans:bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <beans:bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </beans:bean>
+
+    <beans:bean id="countryDao" class="by.bntu.fitr.povt.dao.imlements.CountryDaoImpl">
+        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </beans:bean>
+    <beans:bean id="countryService" class="by.bntu.fitr.povt.services.implement.CountryServiceImpl">
+        <beans:property name="countryDao" ref="countryDao"/>
+    </beans:bean>
+
+
+    <beans:bean id="orderDao" class="by.bntu.fitr.povt.dao.imlements.OrderDaoImpl">
+        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </beans:bean>
+    <beans:bean id="orderService" class="by.bntu.fitr.povt.services.implement.OrderServiceImpl">
+        <beans:property name="orderDao" ref="orderDao"/>
+    </beans:bean>
+
+
+    <beans:bean id="parcelDao" class="by.bntu.fitr.povt.dao.imlements.ParcelDaoImpl">
+        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </beans:bean>
+    <beans:bean id="parcelService" class="by.bntu.fitr.povt.services.implement.ParcelServiceImpl">
+        <beans:property name="parcelDao" ref="parcelDao"/>
+    </beans:bean>
+
+    <beans:bean id="roleDao" class="by.bntu.fitr.povt.dao.imlements.RoleDaoImpl">
+        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </beans:bean>
+    <beans:bean id="roleService" class="by.bntu.fitr.povt.services.implement.RoleServiceImpl">
+        <beans:property name="roleDao" ref="roleDao"/>
+    </beans:bean>
+
+
+    <beans:bean id="tarifDao" class="by.bntu.fitr.povt.dao.imlements.TarifDaoImpl">
+        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </beans:bean>
+    <beans:bean id="tarifService" class="by.bntu.fitr.povt.services.implement.TarifServiceImpl">
+        <beans:property name="tarifDao" ref="tarifDao"/>
+    </beans:bean>
+
+    <beans:bean id="userDao" class="by.bntu.fitr.povt.dao.imlements.UserDaoImpl">
+        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </beans:bean>
+    <beans:bean id="userService" class="by.bntu.fitr.povt.services.implement.UserServiceImpl">
+        <beans:property name="userDao" ref="userDao"/>
+        <beans:property name="roleDao" ref="roleDao"/>
+    </beans:bean>
+
+
+    <beans:bean id="discountDao" class="by.bntu.fitr.povt.dao.imlements.DiscountDaoImpl">
+        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </beans:bean>
+    <beans:bean id="discountService" class="by.bntu.fitr.povt.services.implement.DiscountServiceImpl">
+        <beans:property name="discountDao" ref="discountDao"/>
+    </beans:bean>
+
+    <beans:bean id="userValidator" class="by.bntu.fitr.povt.model.UserValidator">
+    </beans:bean>
+
+    <beans:bean id="countryValidator" class="by.bntu.fitr.povt.model.CountryValidator">
+    </beans:bean>
+
+
+    <beans:bean id="parcelValidator" class="by.bntu.fitr.povt.model.ParcelValidator">
+    </beans:bean>
+
+    <beans:bean id="tarifValidator" class="by.bntu.fitr.povt.model.TarifValidator">
+    </beans:bean>
+
+    <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+    </beans:bean>
+
+</beans:beans>
